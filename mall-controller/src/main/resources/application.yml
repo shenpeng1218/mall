@@ -1,0 +1,16 @@
+server:
+    port: 7088
+    context-path: /mall
+spring:
+    freemarker:
+        allow-request-override: false
+        cache: true
+        check-template-location: true
+        charset: UTF-8
+        content-type: text/html
+        expose-request-attributes: true
+        expose-session-attributes: false
+        expose-spring-macro-helpers: false
+        request-context-attribute: request
+        template-loader-path: classpath:/templates/
+        suffix: .html

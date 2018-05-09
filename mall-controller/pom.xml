@@ -11,6 +11,14 @@
 
     <artifactId>mall-controller</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.moss.mall</groupId>
+            <artifactId>mall-service</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -26,24 +34,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <dependencies>
-        <!-- spring boot web -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <!-- freemarker -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-freemarker</artifactId>
-        </dependency>
-
-        <!--spring security-->
-        <!--<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>-->
-    </dependencies>
+    
 </project>

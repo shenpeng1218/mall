@@ -11,5 +11,12 @@
 
     <artifactId>mall-dao</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.moss.mall</groupId>
+            <artifactId>mall-pojo</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+    </dependencies>
 
 </project>

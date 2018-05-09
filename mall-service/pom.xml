@@ -11,5 +11,12 @@
 
     <artifactId>mall-service</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.moss.mall</groupId>
+            <artifactId>mall-dao</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+    </dependencies>
 
 </project>

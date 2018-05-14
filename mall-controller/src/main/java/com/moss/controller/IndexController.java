@@ -1,6 +1,7 @@
 package com.moss.controller;
 
 import com.moss.bean.User;
+import com.moss.conf.redis.RedisService;
 import com.moss.result.Result;
 import com.moss.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class IndexController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RedisService redisService;
 
     @RequestMapping("/index")
     public String index(){
@@ -36,6 +40,21 @@ public class IndexController {
     public Result<Integer> insertUser(){
         int id = userService.insertUser();
         return Result.success(id);
+    }
+
+    @RequestMapping("/redis/set")
+    @ResponseBody
+    public Result<Boolean> testRedis(){
+        User user = userService.getUserById(1);
+        boolean result = redisService.set("user", user);
+        return Result.success(result);
+    }
+
+    @RequestMapping("/redis/get")
+    @ResponseBody
+    public Result<User> redisGet(){
+        User user = redisService.get("user", User.class);
+        return Result.success(user);
     }
 
 }

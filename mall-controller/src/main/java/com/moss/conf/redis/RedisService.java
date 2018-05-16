@@ -13,31 +13,112 @@ public class RedisService {
     @Autowired
     private JedisPool jedisPool;
 
-    public <T> T get(String key, Class<T> clazz){
+    /**
+     * 根据key与前缀获取value
+     * @param prefix
+     * @param key
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public <T> T get(KeyPrefix prefix, String key, Class<T> clazz){
         Jedis jedis = null;
         try{
             jedis = jedisPool.getResource();
-            String value = jedis.get(key);
-            T t = stringToBean(value,clazz);
+            //给key添加前缀
+            String realKey = prefix.getPrefix() + key;
+            String value = jedis.get(realKey);
+            T t = stringToBean(value, clazz);
             return t;
         }finally {
-            if(jedis != null){
-                jedis.close();
-            }
+            returnToPool(jedis);
         }
     }
 
-    public <T> boolean set(String key, T value){
+    /**
+     * 插入key value，其中key要添加业务前缀，set方法永久添加，setex方法添加过期时间，setnx判断key是否存在，存在的话不覆盖
+     * @param prefix
+     * @param key
+     * @param value
+     * @param <T>
+     * @return
+     */
+    public <T> boolean set(KeyPrefix prefix, String key, T value){
         Jedis jedis = null;
         try{
             jedis = jedisPool.getResource();
             String beanStr = beanToString(value);
-            jedis.set(key, beanStr);
+            //给key添加前缀
+            String realKey = prefix.getPrefix() + key;
+            int expireSeconds = prefix.expireSeconds();
+            if(expireSeconds <= 0){
+                jedis.set(realKey, beanStr);
+            }else{
+                jedis.setex(realKey, expireSeconds, beanStr);
+            }
             return true;
         }finally {
-            if(jedis != null){
-                jedis.close();
-            }
+            returnToPool(jedis);
+        }
+    }
+
+    /**
+     * 判断key值是否存在
+     * @param prefix
+     * @param key
+     * @return
+     */
+    public boolean exists(KeyPrefix prefix, String key){
+        Jedis jedis = null;
+        try{
+            jedis = jedisPool.getResource();
+            //给key添加前缀
+            String realKey = prefix.getPrefix() + key;
+            return jedis.exists(realKey);
+        }finally {
+            returnToPool(jedis);
+        }
+    }
+
+    /**
+     * 根据key和prefix对值进行+1操作
+     * @param prefix
+     * @param key
+     * @return
+     */
+    public long incr(KeyPrefix prefix, String key){
+        Jedis jedis = null;
+        try{
+            jedis = jedisPool.getResource();
+            //给key添加前缀
+            String realKey = prefix.getPrefix() + key;
+            return jedis.incr(realKey);
+        }finally {
+            returnToPool(jedis);
+        }
+    }
+
+    /**
+     * 根据key和prefix对值进行-1操作
+     * @param prefix
+     * @param key
+     * @return
+     */
+    public long decr(KeyPrefix prefix, String key){
+        Jedis jedis = null;
+        try{
+            jedis = jedisPool.getResource();
+            //给key添加前缀
+            String realKey = prefix.getPrefix() + key;
+            return jedis.decr(realKey);
+        }finally {
+            returnToPool(jedis);
+        }
+    }
+
+    private void returnToPool(Jedis jedis){
+        if(jedis != null){
+            jedis.close();
         }
     }
 

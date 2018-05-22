@@ -1,6 +1,7 @@
 package com.moss.impl;
 
 import com.moss.bean.MallUser;
+import com.moss.exception.GlobalException;
 import com.moss.mapper.MallUserDao;
 import com.moss.result.CodeMessage;
 import com.moss.service.MallUserService;
@@ -20,15 +21,14 @@ public class MallUserServiceImpl implements MallUserService{
     }
 
     @Override
-    public CodeMessage login(LoginVo loginVo) {
+    public boolean login(LoginVo loginVo) {
         MallUser mallUser = mallUserDao.getById(Long.parseLong(loginVo.getCellphoneNum()));
         if(mallUser == null){
-            return CodeMessage.CELLPHONE_NOT_EXITE;
+            throw new GlobalException(CodeMessage.CELLPHONE_NOT_EXITE);
         }
-        if(mallUser.getPassword().equals(loginVo.getPassword())){
-            return CodeMessage.SUCCESS;
-        }else{
-            return CodeMessage.PASSWORD_ERROR;
+        if(!mallUser.getPassword().equals(loginVo.getPassword())){
+            throw new GlobalException(CodeMessage.PASSWORD_ERROR);
         }
+        return true;
     }
 }

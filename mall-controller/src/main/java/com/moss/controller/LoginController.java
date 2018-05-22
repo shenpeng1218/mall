@@ -24,13 +24,9 @@ public class LoginController {
 
     @RequestMapping("/login/doLogin")
     @ResponseBody
-    public Result<CodeMessage> doLogin(@Valid LoginVo loginVo){
-        CodeMessage result = mallUserService.login(loginVo);
-        if(result.equals(CodeMessage.SUCCESS)){
-            return Result.success(result);
-        }else{
-            return Result.error(result);
-        }
+    public Result<Boolean> doLogin(@Valid LoginVo loginVo){
+        mallUserService.login(loginVo);
+        return Result.success(true);
     }
 
 }

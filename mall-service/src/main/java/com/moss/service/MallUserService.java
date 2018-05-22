@@ -8,5 +8,5 @@ public interface MallUserService {
 
     public MallUser getById(long id);
 
-    public CodeMessage login(LoginVo loginVo);
+    public boolean login(LoginVo loginVo);
 }

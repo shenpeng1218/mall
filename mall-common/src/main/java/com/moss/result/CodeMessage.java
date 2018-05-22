@@ -9,6 +9,7 @@ public class CodeMessage {
     //所有的异常在这里维护
     public static CodeMessage SUCCESS = new CodeMessage(0, "success");
     public static CodeMessage SERVER_ERROR = new CodeMessage(500100, "服务器错误！");
+    public static CodeMessage BIND_ERROR = new CodeMessage(500101,"参数校验错误 : %s");
 
     //登录模块
     public static CodeMessage PASSWORD_EMPTY = new CodeMessage(500201, "密码不能为空！");
@@ -31,6 +32,12 @@ public class CodeMessage {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public CodeMessage fillArgs(Object... args){
+        int code = this.code;
+        String message = String.format(this.message, args);
+        return new CodeMessage(code, message);
     }
 
     private CodeMessage(int code, String message) {

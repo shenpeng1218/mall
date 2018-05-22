@@ -11,5 +11,12 @@
 
     <artifactId>mall-pojo</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.moss.mall</groupId>
+            <artifactId>mall-common</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+    </dependencies>
 
 </project>

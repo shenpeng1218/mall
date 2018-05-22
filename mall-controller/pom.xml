@@ -17,6 +17,11 @@
             <artifactId>mall-service</artifactId>
             <version>0.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.moss.mall</groupId>
+            <artifactId>mall-common</artifactId>
+            <version>0.0.1</version>
+        </dependency>
     </dependencies>
 
     <build>

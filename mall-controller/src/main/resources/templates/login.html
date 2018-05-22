@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页</title>
+    <!-- 登录样式 -->
+    <link rel="stylesheet" href="${request.contextPath}/static/css/login.css"/>
+    <!-- jquery -->
+    <script type="text/javascript" src="${request.contextPath}/static/js/jquery.min.js"></script>
+    <!-- 弹出窗 -->
+    <script type="text/javascript" src="${request.contextPath}/static/js/layer/layer.js"></script>
+    <!-- 验证字段 -->
+    <script type="text/javascript" src="${request.contextPath}/static/js/jquery-validation/jquery.validate.min.js"></script>
+</head>
+<body>
+    <div id="login">
+        <h1>Login</h1>
+        <form id="loginForm" method="post">
+            <input type="text" placeholder="手机号" id="cellphoneNum" required="required" minlength="11" maxlength="11"></input>
+            <input type="password" placeholder="密码" id="password" required="required" minlength="6" maxlength="16"></input>
+            <button class="button" type="submit" onclick="login()">登录</button>
+        </form>
+    </div>
+</body>
+<script>
+function login() {
+    $("#loginForm").validate({
+        submitHandler:function (form) {
+            doLogin();
+        }
+    })
+}
+
+function doLogin() {
+    layer.load(1, {
+        shade: [0.5, '#fff']
+    });
+    $.ajax({
+        url: "login/doLogin",
+        method: "POST",
+        data: {
+            cellphoneNum: $("#cellphoneNum").val(),
+            password: $("#password").val()//密码这里应该进行一次md5加密，防止明文密码在网络上传输被拦截
+        },
+        success: function (data) {
+            layer.closeAll();
+            layer.alert(data.message);
+        },
+        error: function () {
+            layer.closeAll();
+        }
+    })
+}
+</script>
+</html>

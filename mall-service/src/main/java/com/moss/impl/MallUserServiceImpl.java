@@ -40,13 +40,13 @@ public class MallUserServiceImpl implements MallUserService{
         if(!mallUser.getPassword().equals(loginVo.getPassword())){
             throw new GlobalException(CodeMessage.PASSWORD_ERROR);
         }
-        addCookie(mallUser, response);
+        //登录成功，生成token，写入cookie与session
+        String token = UUIDUtil.uuid();
+        addCookie(mallUser, response, token);
         return true;
     }
 
-    private void addCookie(MallUser mallUser, HttpServletResponse response){
-        //登录成功，生成token，写入cookie与session
-        String token = UUIDUtil.uuid();
+    private void addCookie(MallUser mallUser, HttpServletResponse response, String token){
 
         //单机应用写入服务器session即可，此处仿照分布式应用，将session写入redis之类的中间件
         redisService.set(MallUserKey.token, token, mallUser);
@@ -64,7 +64,7 @@ public class MallUserServiceImpl implements MallUserService{
         }
         MallUser user = redisService.get(MallUserKey.token, token, MallUser.class);
         //再次访问之后延长过期时间-----1刷新缓存2刷新cookie
-        addCookie(user, response);
+        addCookie(user, response, token);
         return user;
     }
 }

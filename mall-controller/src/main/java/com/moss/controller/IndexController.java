@@ -1,8 +1,8 @@
 package com.moss.controller;
 
 import com.moss.bean.User;
-import com.moss.conf.redis.RedisService;
-import com.moss.conf.redis.UserKey;
+import com.moss.redis.RedisService;
+import com.moss.redis.UserKey;
 import com.moss.result.Result;
 import com.moss.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

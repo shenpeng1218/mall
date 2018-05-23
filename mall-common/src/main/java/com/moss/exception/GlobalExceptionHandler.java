@@ -2,7 +2,6 @@ package com.moss.exception;
 
 import com.moss.result.CodeMessage;
 import com.moss.result.Result;
-import jdk.nashorn.internal.objects.Global;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,8 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 @ResponseBody
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler
+    @ExceptionHandler(value = Exception.class)
     public Result<String> exceptionHandler(HttpServletRequest request, Exception e){
+        e.printStackTrace();//这里只简单打印，应该用log4j等日志框架
 
         if(e instanceof GlobalException){
             GlobalException ex = (GlobalException)e;

@@ -1,4 +1,4 @@
-package com.moss.conf.redis;
+package com.moss.redis;
 
 import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;

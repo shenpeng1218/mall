@@ -36,7 +36,7 @@ function doLogin() {
         shade: [0.5, '#fff']
     });
     $.ajax({
-        url: "login/doLogin",
+        url: "/mall/login/doLogin",
         method: "POST",
         data: {
             cellphoneNum: $("#cellphoneNum").val(),
@@ -44,7 +44,9 @@ function doLogin() {
         },
         success: function (data) {
             layer.closeAll();
-            layer.alert(data.message);
+            if(data.data){
+                window.location.href="/mall/goods/list";
+            }
         },
         error: function () {
             layer.closeAll();

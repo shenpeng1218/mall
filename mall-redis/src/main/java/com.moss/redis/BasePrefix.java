@@ -1,4 +1,4 @@
-package com.moss.conf.redis;
+package com.moss.redis;
 
 public abstract class BasePrefix implements KeyPrefix{
 

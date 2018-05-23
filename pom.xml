@@ -11,6 +11,7 @@
         <module>mall-service</module>
         <module>mall-pojo</module>
         <module>mall-common</module>
+        <module>mall-redis</module>
     </modules>
     <packaging>pom</packaging>
 

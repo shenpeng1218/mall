@@ -1,6 +1,5 @@
 package com.moss.controller;
 
-import com.moss.result.CodeMessage;
 import com.moss.result.Result;
 import com.moss.service.MallUserService;
 import com.moss.vo.LoginVo;

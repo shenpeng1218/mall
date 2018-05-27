@@ -16,7 +16,6 @@
 <div class="container">
     <input id="startDate" type="hidden" value="${goods.startDate?string("yyyy-MM-dd HH:mm:ss")}"/>
     <input id="endDate" type="hidden" value="${goods.endDate?string("yyyy-MM-dd HH:mm:ss")}"/>
-    <input id="seckillStatus" type="hidden" value="${seckillStatus}"/>
     <table class="table">
         <tbody>
             <tr style="display: none">
@@ -37,13 +36,13 @@
             <tr>
                 <!-- 最好是状态码 -->
                 <td>秒杀状态</td>
-                <td>${seckillStatus}&nbsp;&nbsp;<button id="seckillButton" class="btn btn-danger btn-sm">立即秒杀</button></td>
+                <td id="seckillStatus">${seckillStatus}</td>
             </tr>
             <tr>
                 <td id="seckillTimeDesc"></td><td id="timeCountDown"></td>
             </tr>
             <tr>
-                <td>秒杀价</td><td>${goods.seckillPrice}</td>
+                <td>秒杀价</td><td>${goods.seckillPrice}&nbsp;&nbsp;<button id="seckillButton" class="btn btn-danger btn-sm">立即秒杀</button></td>
             </tr>
             <tr>
                 <td>库存数量</td><td>${goods.goodsStock}</td>
@@ -54,7 +53,7 @@
 </body>
 <script>
     $(function () {
-        var seckillStatus = $("#seckillStatus").val();
+        var seckillStatus = $("#seckillStatus").text();
         if(seckillStatus == "未开始"){
             seckillCountDown();
 
@@ -73,6 +72,7 @@
         $("#timeCountDown").countdown($("#startDate").val(), function(event) {
             $(this).text(event.strftime('%D 天 %H:%M:%S'));
         }).on("finish.countdown", function () {
+            $("#seckillStatus").text("进行中");
             $("#seckillButton").show();
             seckillProcessing();
         });
@@ -83,6 +83,7 @@
         $("#timeCountDown").countdown($("#endDate").val(), function(event) {
             $(this).text(event.strftime('%D 天 %H:%M:%S'));
         }).on("finish.countdown", function () {
+            $("#seckillStatus").text("已结束");
             $("#seckillButton").hide();
             seckillFinished();
         });

@@ -18,4 +18,9 @@ public class MallGoodsServiceImpl implements MallGoodsService{
     public List<GoodsVo> listGoodsVo() {
         return mallGoodsDao.listGoodsVo();
     }
+
+    @Override
+    public GoodsVo getById(long id) {
+        return mallGoodsDao.getById(id);
+    }
 }

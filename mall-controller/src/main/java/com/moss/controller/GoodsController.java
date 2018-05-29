@@ -1,7 +1,7 @@
 package com.moss.controller;
 
 import com.moss.bean.MallUser;
-import com.moss.exception.SeckillStatus;
+import com.moss.enumeration.SeckillStatus;
 import com.moss.service.MallGoodsService;
 import com.moss.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -18,6 +18,10 @@ public class CodeMessage {
     public static CodeMessage CELLPHONE_NOT_EXITE = new CodeMessage(500204, "手机号不存在！");
     public static CodeMessage PASSWORD_ERROR = new CodeMessage(500205, "密码错误！");
 
+    //秒杀模块
+    public static CodeMessage STOCK_EMPTY = new CodeMessage(500301, "当前商品已售罄！");
+    public static CodeMessage CAN_NOT_REBUY = new CodeMessage(500302, "不能重复秒杀！");
+
     public int getCode() {
         return code;
     }

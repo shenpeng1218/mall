@@ -1,5 +1,6 @@
 package com.moss.impl;
 
+import com.moss.bean.MallSeckillGoods;
 import com.moss.mapper.MallGoodsDao;
 import com.moss.service.MallGoodsService;
 import com.moss.vo.GoodsVo;
@@ -22,5 +23,10 @@ public class MallGoodsServiceImpl implements MallGoodsService{
     @Override
     public GoodsVo getById(long id) {
         return mallGoodsDao.getById(id);
+    }
+
+    @Override
+    public int reduceStock(MallSeckillGoods seckillGoods) {
+        return mallGoodsDao.reduceStock(seckillGoods);
     }
 }

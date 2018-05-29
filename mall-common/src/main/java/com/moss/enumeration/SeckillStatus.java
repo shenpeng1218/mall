@@ -1,4 +1,4 @@
-package com.moss.exception;
+package com.moss.enumeration;
 
 public enum SeckillStatus {
 

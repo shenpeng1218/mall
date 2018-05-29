@@ -50,6 +50,9 @@ public class MallUserArgumentResolver implements HandlerMethodArgumentResolver{
 
     public String getToken(HttpServletRequest request){
         Cookie[] cookies = request.getCookies();
+        if(cookies == null || cookies.length <= 0){
+            return null;
+        }
         for(Cookie cookie : cookies){
             if(cookie.getName().equals(MallUserServiceImpl.COOKIE_NAME_TOKEN)){
                 return cookie.getValue();

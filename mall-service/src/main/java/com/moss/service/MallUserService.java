@@ -10,7 +10,7 @@ public interface MallUserService {
 
     public MallUser getById(long id);
 
-    public boolean login(HttpServletResponse response, LoginVo loginVo);
+    public String login(HttpServletResponse response, LoginVo loginVo);
 
     public MallUser getByToken(HttpServletResponse response, String token);
 }

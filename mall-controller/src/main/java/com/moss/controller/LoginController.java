@@ -24,9 +24,8 @@ public class LoginController {
 
     @RequestMapping("/login/doLogin")
     @ResponseBody
-    public Result<Boolean> doLogin(HttpServletResponse response, @Valid LoginVo loginVo){
-        mallUserService.login(response, loginVo);
-        return Result.success(true);
+    public Result<String> doLogin(HttpServletResponse response, @Valid LoginVo loginVo){
+        return Result.success(mallUserService.login(response, loginVo));
     }
 
 }

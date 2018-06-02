@@ -32,7 +32,7 @@ public class MallUserServiceImpl implements MallUserService{
     }
 
     @Override
-    public boolean login(HttpServletResponse response, LoginVo loginVo) {
+    public String login(HttpServletResponse response, LoginVo loginVo) {
         MallUser mallUser = mallUserDao.getById(Long.parseLong(loginVo.getCellphoneNum()));
         if(mallUser == null){
             throw new GlobalException(CodeMessage.CELLPHONE_NOT_EXITE);
@@ -43,7 +43,7 @@ public class MallUserServiceImpl implements MallUserService{
         //登录成功，生成token，写入cookie与session
         String token = UUIDUtil.uuid();
         addCookie(mallUser, response, token);
-        return true;
+        return token;
     }
 
     private void addCookie(MallUser mallUser, HttpServletResponse response, String token){

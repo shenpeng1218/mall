@@ -32,19 +32,7 @@ public class SeckillController {
             return "login";
         }
 
-        //判断库存
         GoodsVo goodsVo = goodsService.getById(goodsId);
-        if(goodsVo.getGoodsStock() < 0){
-            model.addAttribute("errorMsg", CodeMessage.STOCK_EMPTY.getMessage());
-            return "seckillFailure";
-        }
-
-        //判断是否已经秒杀到了
-        MallSeckillOrder seckillOrder = orderService.getSeckillOrderByUserIdAndGoodsId(user.getId(), goodsId);
-        if (seckillOrder != null){
-            model.addAttribute("errorMsg", CodeMessage.CAN_NOT_REBUY.getMessage());
-            return "seckillFailure";
-        }
 
         //减库存 下订单 添加秒杀订单
         MallOrder order = seckillService.buy(user, goodsVo);

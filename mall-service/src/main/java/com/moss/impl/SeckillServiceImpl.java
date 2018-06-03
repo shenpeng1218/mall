@@ -3,6 +3,8 @@ package com.moss.impl;
 import com.moss.bean.MallOrder;
 import com.moss.bean.MallSeckillGoods;
 import com.moss.bean.MallUser;
+import com.moss.exception.GlobalException;
+import com.moss.result.CodeMessage;
 import com.moss.service.MallGoodsService;
 import com.moss.service.MallOrderService;
 import com.moss.service.SeckillService;
@@ -26,7 +28,10 @@ public class SeckillServiceImpl implements SeckillService{
         //减库存
         MallSeckillGoods seckillGoods = new MallSeckillGoods();
         seckillGoods.setGoodsId(goodsVo.getId());
-        goodsService.reduceStock(seckillGoods);
+        int reduceResult = goodsService.reduceStock(seckillGoods);
+        if(reduceResult <= 0){
+            throw new GlobalException(CodeMessage.STOCK_EMPTY);
+        }
 
         //下订单，添加秒杀订单
         MallOrder order = orderService.createOrder(user, goodsVo);

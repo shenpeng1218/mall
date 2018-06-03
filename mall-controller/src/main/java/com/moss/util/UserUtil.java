@@ -98,7 +98,7 @@ public class UserUtil {
     }
 
     public static void main(String[] args) throws Exception {
-        createUser(3000);
+        createUser(2000);
         System.out.println("over");
     }
 }

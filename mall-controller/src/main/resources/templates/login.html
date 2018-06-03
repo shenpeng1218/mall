@@ -47,6 +47,7 @@ function doLogin() {
             if(data.data){
                 window.location.href="/mall/goods/list";
             }
+            layer.alert(data.message);
         },
         error: function () {
             layer.closeAll();

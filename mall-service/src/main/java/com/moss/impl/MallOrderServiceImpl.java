@@ -8,6 +8,7 @@ import com.moss.service.MallOrderService;
 import com.moss.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -23,6 +24,7 @@ public class MallOrderServiceImpl implements MallOrderService{
     }
 
     @Override
+    @Transactional
     public MallOrder createOrder(MallUser user, GoodsVo goodsVo) {
         MallOrder mallOrder = new MallOrder();
         mallOrder.setCreateDate(new Date());

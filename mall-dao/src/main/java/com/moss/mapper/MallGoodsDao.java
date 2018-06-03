@@ -19,6 +19,6 @@ public interface MallGoodsDao {
             "from mall_seckill_goods a left join mall_goods b on a.goods_id = b.id where b.id = #{id}")
     public GoodsVo getById(long id);
 
-    @Update("update mall_seckill_goods set stock_count = stock_count-1 where goods_id=#{goodsId}")
+    @Update("update mall_seckill_goods set stock_count = stock_count-1 where goods_id=#{goodsId} and stock_count > 0")
     public int reduceStock(MallSeckillGoods seckillGoods);
 }

@@ -38,6 +38,27 @@ spring:
         testOnReturn: true
         poolPreparedStatements: true
         maxOpenPreparedStatements: 20
+    #rabbitmq
+    rabbitmq:
+        host: localhost
+        port: 15672
+        username: guest
+        password: guest
+        virtual-host: /
+        listener:
+            simple:
+              concurrency: 10    #消费者数量
+              max-concurrency: 10
+              prefetch: 1   #一次从队列里取一个
+              auto-startup: true
+              default-requeue-rejected: true #重新消费
+        template:
+            retry:
+              enabled: true
+              initial-interval: 1000
+              max-attempts: 3
+              max-interval: 10000
+              multiplier: 1.0
 #mybatis
 mybatis:
   type-aliases-package: com.moss.bean
@@ -57,4 +78,5 @@ redis:
     poolMaxWait: 200
 logging:
   level: debug
+
 

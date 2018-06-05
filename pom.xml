@@ -12,6 +12,7 @@
         <module>mall-pojo</module>
         <module>mall-common</module>
         <module>mall-redis</module>
+        <module>mall-rabbitmq</module>
     </modules>
     <packaging>pom</packaging>
 

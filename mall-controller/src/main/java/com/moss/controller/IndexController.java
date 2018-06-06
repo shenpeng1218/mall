@@ -28,4 +28,24 @@ public class IndexController {
         return Result.success("hello, rabbitmq");
     }
 
+    @RequestMapping("/mq/topic")
+    @ResponseBody
+    public Result<String> mqTopic(){
+        mqSender.sendTopic("hello, rabbitmq topic exchange");
+        return Result.success("hello, rabbitmq topic exchange");
+    }
+
+    @RequestMapping("/mq/fanout")
+    @ResponseBody
+    public Result<String> mpFanout(){
+        mqSender.sendFanout("hello, rabbitmq fanout exchange");
+        return Result.success("hello, rabbitmq fanout exchange");
+    }
+
+    @RequestMapping("/mq/headers")
+    @ResponseBody
+    public Result<String> mpHeaders(){
+        mqSender.sendHeaders("hello, rabbitmq headers exchange");
+        return Result.success("hello, rabbitmq headers exchange");
+    }
 }

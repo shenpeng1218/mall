@@ -19,6 +19,8 @@ public class MQConfig {
     public static final String HEADERS_EXCHANGE = "headersExchange";
     public static final String HEADERS_QUEUE = "headers.queue";
 
+    public static final String SECKILL_QUEUE = "seckill.queue";
+
     /**
      * rabbitmq direct模式 最简单的模式
      */
@@ -94,4 +96,5 @@ public class MQConfig {
         map.put("key2", "value2");
         return BindingBuilder.bind(headersQueue()).to(headersExchange()).whereAll(map).match();
     }
+
 }

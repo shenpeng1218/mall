@@ -4,6 +4,8 @@ import com.moss.bean.MallOrder;
 import com.moss.bean.MallSeckillOrder;
 import com.moss.bean.MallUser;
 import com.moss.mapper.MallOrderDao;
+import com.moss.redis.OrderKey;
+import com.moss.redis.RedisService;
 import com.moss.service.MallOrderService;
 import com.moss.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,16 @@ public class MallOrderServiceImpl implements MallOrderService{
     @Autowired
     private MallOrderDao orderDao;
 
+    @Autowired
+    private RedisService redisService;
+
     @Override
     public MallSeckillOrder getSeckillOrderByUserIdAndGoodsId(long userId, long goodsId) {
-        return orderDao.getSeckillOrderByUserIdAndGoodsId(userId, goodsId);
+        MallSeckillOrder seckillOrder =
+                redisService.get(OrderKey.getSeckillOrderByUidGid, userId+"_"+goodsId, MallSeckillOrder.class);
+        if(seckillOrder != null)
+            return seckillOrder;
+            return orderDao.getSeckillOrderByUserIdAndGoodsId(userId, goodsId);
     }
 
     @Override
@@ -36,13 +45,15 @@ public class MallOrderServiceImpl implements MallOrderService{
         mallOrder.setOrderChannel(1);//最好用枚举
         mallOrder.setStatus(0);//最好用枚举
         mallOrder.setUserId(user.getId());
-        long orderId = orderDao.insertOrder(mallOrder);
+        orderDao.insertOrder(mallOrder);
 
         MallSeckillOrder seckillOrder = new MallSeckillOrder();
         seckillOrder.setGoodsId(goodsVo.getId());
-        seckillOrder.setOrderId(orderId);
+        seckillOrder.setOrderId(mallOrder.getId());
         seckillOrder.setUserId(user.getId());
         orderDao.insertSeckillOrder(seckillOrder);
+
+        redisService.set(OrderKey.getSeckillOrderByUidGid, user.getId()+"_"+goodsVo.getId(), seckillOrder);
 
         return mallOrder;
     }

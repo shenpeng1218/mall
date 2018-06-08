@@ -1,9 +1,9 @@
 package com.moss.redis;
 
 import com.alibaba.fastjson.JSON;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -28,6 +28,9 @@ public class RedisService {
             //给key添加前缀
             String realKey = prefix.getPrefix() + key;
             String value = jedis.get(realKey);
+            if(StringUtils.isEmpty(value)){
+                return null;
+            }
             T t = stringToBean(value, clazz);
             return t;
         }finally {
@@ -122,7 +125,7 @@ public class RedisService {
         }
     }
 
-    public <T> T stringToBean(String value, Class<T> clazz){
+    public static <T> T stringToBean(String value, Class<T> clazz){
         //非空判断
         if(StringUtils.isEmpty(value) || clazz ==null){
             return null;
@@ -139,7 +142,7 @@ public class RedisService {
         }
     }
 
-    public  <T> String beanToString(T value){
+    public static <T> String beanToString(T value){
         //非空判断
         if(value == null){
             return null;

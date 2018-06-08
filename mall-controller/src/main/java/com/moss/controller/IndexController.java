@@ -21,12 +21,12 @@ public class IndexController {
         return "index";
     }
 
-    @RequestMapping("/mq")
+    /*@RequestMapping("/mq")
     @ResponseBody
     public Result<String> mq(){
         mqSender.send("hello, rabbitmq");
         return Result.success("hello, rabbitmq");
-    }
+    }*/
 
     @RequestMapping("/mq/topic")
     @ResponseBody

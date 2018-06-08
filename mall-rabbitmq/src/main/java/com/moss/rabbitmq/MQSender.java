@@ -13,30 +13,47 @@ public class MQSender {
     @Autowired
     AmqpTemplate amqpTemplate;
 
-    @Autowired
-    RedisService redisService;
-
-    public void send(Object message){
-        String msg = redisService.beanToString(message);
-        System.out.println("send message:" + msg);
-        amqpTemplate.convertAndSend(MQConfig.QUEUE, message);
+    public void sendSeckillMessage(SeckillMessage seckillMessage){
+        String message = RedisService.beanToString(seckillMessage);
+        amqpTemplate.convertAndSend(MQConfig.SECKILL_QUEUE, message);
+        System.out.println("send message:" + message);
     }
 
+    /**
+     * rabbitmq direct模式 最简单的模式
+     * @param message
+     */
+    /*public void send(Object message){
+        String msg = RedisService.beanToString(message);
+        System.out.println("send message:" + msg);
+        amqpTemplate.convertAndSend(MQConfig.QUEUE, message);
+    }*/
+
+    /**
+     * rabbitmq topic模式
+     * @param message
+     */
     public void sendTopic(Object message){
-        String msg = redisService.beanToString(message);
+        String msg = RedisService.beanToString(message);
         System.out.println("send topic message:" + msg);
         amqpTemplate.convertAndSend(MQConfig.TOPIC_EXCHANGE, "topic.master", msg);
         amqpTemplate.convertAndSend(MQConfig.TOPIC_EXCHANGE, "topic.masterslave", msg);
     }
 
+    /**
+     * Fanout模式
+     */
     public void sendFanout(Object message){
-        String msg = redisService.beanToString(message);
+        String msg = RedisService.beanToString(message);
         System.out.println("send fanout message:" + msg);
         amqpTemplate.convertAndSend(MQConfig.FANOUT_EXCHANGE, "", msg);
     }
 
+    /**
+     * Headers模式
+     */
     public void sendHeaders(Object message){
-        String msg = redisService.beanToString(message);
+        String msg = RedisService.beanToString(message);
         System.out.println("send headers message:" + msg);
         MessageProperties properties = new MessageProperties();
         properties.setHeader("key1", "value1");

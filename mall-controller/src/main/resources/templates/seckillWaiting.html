@@ -3,8 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>排队中</title>
+    <script type="text/javascript" src="${request.contextPath}/static/js/jquery.min.js"></script>
 </head>
 <body>
     <h2>排队中，请稍等</h2>
+    <input type="hidden" value="$(goodsId)" id="goodsId"/>
 </body>
+<script>
+    //做一个轮询即可
+    /*$(function () {
+        $.ajax({
+            url: "/mall/seckill/result",
+            method: "POST",
+            data: {
+                goodsId: $("#goodsId").val();
+            },
+            success: function (data) {
+
+            },
+            error: function () {
+                layer.closeAll();
+            }
+        })
+    })*/
+</script>
 </html>

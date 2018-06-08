@@ -17,6 +17,7 @@ public class CodeMessage {
     public static CodeMessage CELLPHONE_FORMAT_ERROR = new CodeMessage(500203, "手机号格式错误！");
     public static CodeMessage CELLPHONE_NOT_EXITE = new CodeMessage(500204, "手机号不存在！");
     public static CodeMessage PASSWORD_ERROR = new CodeMessage(500205, "密码错误！");
+    public static CodeMessage SESSION_TIME_OUT = new CodeMessage(500206, "登录超时");
 
     //秒杀模块
     public static CodeMessage STOCK_EMPTY = new CodeMessage(500301, "当前商品已售罄！");

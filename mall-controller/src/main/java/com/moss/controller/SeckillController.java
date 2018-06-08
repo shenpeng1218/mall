@@ -8,6 +8,7 @@ import com.moss.redis.GoodsKey;
 import com.moss.redis.OrderKey;
 import com.moss.redis.RedisService;
 import com.moss.result.CodeMessage;
+import com.moss.result.Result;
 import com.moss.service.MallGoodsService;
 import com.moss.vo.GoodsVo;
 import org.springframework.beans.factory.InitializingBean;
@@ -15,8 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class SeckillController implements InitializingBean{
@@ -30,6 +34,8 @@ public class SeckillController implements InitializingBean{
     @Autowired
     private MQSender mqSender;
 
+    private Map<Long, Boolean> localMap = new HashMap<Long, Boolean>();
+
     @RequestMapping("/seckill")
     public String seckill(Model model, MallUser user, long goodsId){
         if(user == null){
@@ -40,7 +46,13 @@ public class SeckillController implements InitializingBean{
         MallSeckillOrder seckillOrder =
                 redisService.get(OrderKey.getSeckillOrderByUidGid, user.getId()+"_"+goodsId, MallSeckillOrder.class);
         if(seckillOrder != null){
-            model.addAttribute("errorMsg", CodeMessage.CAN_NOT_REBUY);
+            model.addAttribute("errorMsg", CodeMessage.CAN_NOT_REBUY.getMessage());
+            return "seckillFailure";
+        }
+
+        boolean over = localMap.get(goodsId);//判断是否已卖光
+        if(over){
+            model.addAttribute("errorMsg", CodeMessage.STOCK_EMPTY.getMessage());
             return "seckillFailure";
         }
 
@@ -48,6 +60,7 @@ public class SeckillController implements InitializingBean{
         long stock = redisService.decr(GoodsKey.getSeckillGoodsStock, goodsId+"");
         if(stock < 0){
             model.addAttribute("errorMsg", CodeMessage.STOCK_EMPTY.getMessage());
+            localMap.put(goodsId, true);
             return "seckillFailure";
         }
 
@@ -57,6 +70,7 @@ public class SeckillController implements InitializingBean{
         seckillMessage.setGoodsId(goodsId);
         mqSender.sendSeckillMessage(seckillMessage);
 
+        model.addAttribute("goodsId", goodsId);
         return "seckillWaiting";
 
         /*GoodsVo goodsVo = goodsService.getById(goodsId);
@@ -74,6 +88,7 @@ public class SeckillController implements InitializingBean{
         }
         for(GoodsVo goodsVo : goodsVos){
             redisService.set(GoodsKey.getSeckillGoodsStock, goodsVo.getId() + "", goodsVo.getStockCount());
+            localMap.put(goodsVo.getId(), false);
         }
     }
 }
